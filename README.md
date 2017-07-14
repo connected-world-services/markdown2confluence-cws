@@ -1,7 +1,7 @@
 Markdown2Confluence
 ===================
 
-Convert [Markdown] to [Confluence Wiki Markup]. This is an updated version of the original [markdown2confluence](https://github.com/chunpu/markdown2confluence) project.
+Convert [Markdown] to [Confluence Wiki Markup]. This is an updated version of the original [markdown2confluence-cws](https://github.com/connected-world-services/markdown2confluence-cws) project.
 
 [![npm version][npm-badge]][npm-link]
 [![Build Status][travis-badge]][travis-link]
@@ -57,7 +57,7 @@ Alternately you may edit your `package.json` and add this to your `dependencies`
 
 Now you write some JavaScript to load Markdown content and convert.
 
-    markdown2confluence = require("markdown2confluence");
+    markdown2confluence = require("markdown2confluence-cws");
     markdown = fs.readFileSync("README.md");
     confluence = markdown2confluence(markdown);
     console.log(confluence); // Converted!
