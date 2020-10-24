@@ -54,44 +54,38 @@ and more
     });
     describe("code", () => {
         it("formats with code fences", () => {
-            expect(convert("```js\nthis is code\n```")).toEqual(`{code:theme=RDark|linenumbers=true|language=javascript}
-this is code
-{code}`);
+            expect(convert("```js\nthis is code\n```")).toEqual("{code:theme=RDark|linenumbers=true|language=javascript}this is code{code}");
         });
         it("formats with indentation", () => {
             expect(convert(`
     // different code
-`)).toEqual(`{code:theme=RDark|linenumbers=true|language=none}
-// different code
-{code}`);
+`)).toEqual("{code:theme=RDark|linenumbers=true|language=none}// different code{code}");
         });
         it("uses the language map (lowercased) and code styling options", () => {
-            expect(convert("```Moo\ncow()```", {
+            expect(convert("```Moo\ncow()\n```", {
                 codeLanguageMap: {
                     moo: "cowspeak"
                 },
                 codeStyling: {
                     anything: "goes_here"
                 }
-            })).toEqual(`{code:anything=goes_here|language=cowspeak}
-cow()
-{code}`);
+            })).toEqual("{code:anything=goes_here|language=cowspeak}cow(){code}");
         });
         it("allows 20 lines before collapsing", () => {
             expect(convert("```\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n```", {
                 codeStyling: {}
-            })).toEqual("{code:language=none}\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n{code}");
+            })).toEqual("{code:language=none}1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20{code}");
         });
         it("collapses when too big", () => {
             expect(convert("```\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n```", {
                 codeStyling: {}
-            })).toEqual("{code:language=none|collapse=true}\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n{code}");
+            })).toEqual("{code:language=none|collapse=true}1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21{code}");
         });
         it("collapses at a set number", () => {
             expect(convert("```\n1\n2\n3\n```", {
                 codeStyling: {},
                 codeCollapseAt: 2
-            })).toEqual("{code:language=none|collapse=true}\n1\n2\n3\n{code}");
+            })).toEqual("{code:language=none|collapse=true}1\n2\n3{code}");
         });
     });
     describe("codespan", () => {
@@ -147,7 +141,7 @@ cow()
             expect(convert("![alt text](image.png \"title\")")).toEqual("!image.png!");
         });
         it("works with referenced links", () => {
-            expect(convert("![alt text][img]\n[img]: <image.png> \"title\"")).toEqual("!image.png!");
+            expect(convert("![alt text][img]\n\n[img]: <image.png> \"title\"")).toEqual("!image.png!");
         });
         it("allows href rewriting", () => {
             expect(convert("![alt text](image.png)", {
@@ -162,7 +156,7 @@ cow()
             expect(convert("[text](url/ \"title\")")).toEqual("[text|url/]");
         });
         it("embeds a link with a link definition", () => {
-            expect(convert("[text][ref]\n[ref]: <url/> (title)")).toEqual("[text|url/]");
+            expect(convert("[text][ref]\n\n[ref]: <url/> (title)")).toEqual("[text|url/]");
         });
         it("allows href rewriting", () => {
             expect(convert("[text](url/)", {
