@@ -66,7 +66,7 @@ this is code
 {code}`);
         });
         it("uses the language map (lowercased) and code styling options", () => {
-            expect(convert("```Moo\ncow()```", {
+            expect(convert("```Moo\ncow()\n```", {
                 codeLanguageMap: {
                     moo: "cowspeak"
                 },
@@ -147,7 +147,7 @@ cow()
             expect(convert("![alt text](image.png \"title\")")).toEqual("!image.png!");
         });
         it("works with referenced links", () => {
-            expect(convert("![alt text][img]\n[img]: <image.png> \"title\"")).toEqual("!image.png!");
+            expect(convert("![alt text][img]\n\n[img]: <image.png> \"title\"")).toEqual("!image.png!");
         });
         it("allows href rewriting", () => {
             expect(convert("![alt text](image.png)", {
@@ -162,7 +162,7 @@ cow()
             expect(convert("[text](url/ \"title\")")).toEqual("[text|url/]");
         });
         it("embeds a link with a link definition", () => {
-            expect(convert("[text][ref]\n[ref]: <url/> (title)")).toEqual("[text|url/]");
+            expect(convert("[text][ref]\n\n[ref]: <url/> (title)")).toEqual("[text|url/]");
         });
         it("allows href rewriting", () => {
             expect(convert("[text](url/)", {
